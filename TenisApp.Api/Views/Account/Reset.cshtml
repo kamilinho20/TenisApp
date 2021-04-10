@@ -1,0 +1,44 @@
+﻿@using TenisApp.Core.Interface
+@inject ILocalizer Localizer
+@model TenisApp.Shared.ViewModel.ResetViewModel
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="card mt-5 mx-auto">
+    <div class="card-header">
+        <h5 class="card-title">@Localizer["Password reset form"]</h5>
+    </div>
+    <div class="card-body">
+        <form asp-action="Reset" asp-controller="Account" method="post">
+            <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+            <input type="hidden" asp-for="Token"/>
+            <input type="hidden" asp-for="Email"/>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="NewPassword">@Localizer["New password"]</label>
+                        <input type="password" class="form-control" asp-for="NewPassword"/>
+                        <span class="text-danger" asp-validation-for="NewPassword"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="ConfirmPassword">@Localizer["Confirm password"]</label>
+                        <input type="password" class="form-control" asp-for="ConfirmPassword"/>
+                        <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">@Localizer["Save"]</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

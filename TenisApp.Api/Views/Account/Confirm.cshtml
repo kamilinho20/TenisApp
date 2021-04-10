@@ -1,0 +1,11 @@
+﻿@using TenisApp.Core.Interface
+@model TenisApp.DataAccess.Authentication.User
+@inject ILocalizer Localizer
+@{
+    Layout = "_Layout";
+}
+
+<div class="alert alert-info mt-5 mx-auto">
+    <h4 class="alert-heading">@(string.Format(Localizer["Welcome {0}"], Model.Email)).</h4>
+    <h5>@Localizer["Your account has been confirmed successfully!"]</h5>
+</div>

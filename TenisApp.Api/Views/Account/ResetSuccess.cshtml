@@ -1,0 +1,10 @@
+﻿@using TenisApp.Core.Interface
+@inject ILocalizer Localizer
+@{
+    Layout = "_Layout";
+}
+
+<div class="alert alert-success mt-5 mx-auto">
+    <h3 class="alert-heading">@Localizer["Success"]</h3>
+    <h5>@Localizer["Your password has been changed!"]</h5>
+</div>
