@@ -1,0 +1,17 @@
+version: '3.9'
+services:
+  db:
+    image: "mcr.microsoft.com/mssql/server:latest"
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=true
+      - MSSQL_SA_PASSWORD=MendyPisowskie997
+  dotnet:
+    build: .
+    volumes:
+      - .:/app
+    command: "tail -f"
+    ports:
+      - "5000:5000"
+      - "5001:5001"
