@@ -1,10 +1,12 @@
 name: Build check on PR
 on:
   pull_request:
-    type: [opened, reopened]
+    types: [opened, reopened]
     branches: [ master ]
-  github_dispatch:
-    branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: Manual trigger
 jobs:
   PR-check:
     name: Build solution and execute tests
