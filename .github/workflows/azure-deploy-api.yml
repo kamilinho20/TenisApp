@@ -1,10 +1,36 @@
 name: Build and deploy API to Azure Web Service
 on: push
 env:
-  AZURE_WEB_PATH: .
+  AZURE_WEB_PACKAGE_PATH: .
+  AZURE_WEBAPP_NAME: tenisapp
 jobs:
   BuildAndDeploy:
     name: Build and deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v3.0.3
+        with:
+          dotnet-version: 7.x
+          
+      - name: Restore
+        run: dotnet restore
+          
+      - name: Build API
+        run: dotnet build TenisApp.Api/TenisApp.Api.csproj -c Release
+        
+      - name: Publish API
+        run: dotnet publish TenisApp.Api/TenisApp.Api.csproj -c Release -o '${{ env.AZURE_WEB_PACKAGE_PATH }}/myapp'
+        
+      - name: Azure WebApp deploy
+        uses: Azure/webapps-deploy@v2.2.6
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          slot-name: development
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_DEV }}
+          package: '${{ env.AZURE_WEB_PACKAGE_PATH }}/myapp'
+          
+          
+      
