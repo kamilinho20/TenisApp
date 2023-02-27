@@ -1,0 +1,14 @@
+name: Build check on PR
+on:
+  pull_request:
+    type: [opened, reopened]
+    branches: [ master ]
+  github_dispatch:
+    branches: [ master ]
+jobs:
+  PR-check:
+    name: Build solution and execute tests
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'we are on branch: ${{ github.ref }} of repository ${{ github.repostiory }}'
+      - run: echo 'executing on system: ${{ runner.os }}'
