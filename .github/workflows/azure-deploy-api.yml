@@ -24,6 +24,14 @@ jobs:
       - name: Publish API
         run: dotnet publish TenisApp.Api/TenisApp.Api.csproj -c Release -o '${{ env.AZURE_WEB_PACKAGE_PATH }}/myapp'
         
+      - name: Install EF Tool
+        run: |
+            dotnet new tool-manifest
+            dotnet tool install dotnet-ef
+            
+      - name: Create Database migration script
+        run: dotnet ef migrations script -s TenisApp.Api/TenisApp.Api.csproj -p TenisApp.DataAccess/TenisApp.DataAccess.csproj -o ${{env.DOTNET_ROOT}}/sql/sql-script.sql -i
+        
       - name: Azure WebApp deploy
         uses: Azure/webapps-deploy@v2.2.6
         with:
@@ -31,6 +39,12 @@ jobs:
           slot-name: development
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_DEV }}
           package: '${{ env.AZURE_WEB_PACKAGE_PATH }}/myapp'
+          
+      - name: Azure SQL Deploy
+        uses: Azure/sql-action@v2.1
+        with:
+          connection-string: ${{ secrets.AZURE_SQL_CONNECTIONSTRING }}
+          path: ${{env.DOTNET_ROOT}}/sql/sql-script.sql
           
           
       
