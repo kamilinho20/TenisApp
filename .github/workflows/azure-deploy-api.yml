@@ -1,0 +1,10 @@
+name: Build and deploy API to Azure Web Service
+on: push
+env:
+  AZURE_WEB_PATH: .
+jobs:
+  BuildAndDeploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
