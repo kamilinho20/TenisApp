@@ -32,6 +32,11 @@ jobs:
       - name: Create Database migration script
         run: dotnet ef migrations script -s TenisApp.Api/TenisApp.Api.csproj -p TenisApp.DataAccess/TenisApp.DataAccess.csproj -o ${{env.DOTNET_ROOT}}/sql/sql-script.sql -i
         
+      - name: Azure login
+        uses: Azure/login@v1.4.6
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
       - name: Azure WebApp deploy
         uses: Azure/webapps-deploy@v2.2.6
         with:
