@@ -29,6 +29,12 @@ jobs:
       - name: Create Database migration script
         run: dotnet ef migrations script -s TenisApp.Api/TenisApp.Api.csproj -p TenisApp.DataAccess/TenisApp.DataAccess.csproj -o ${{env.DOTNET_ROOT}}/sql/sql-script.sql -i
         
+      - name: upload sql script
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: SQL migration script
+          path: ${{env.DOTNET_ROOT}}/sql/sql-script.sql
+        
       - name: Azure login
         uses: Azure/login@v1.4.6
         with:
@@ -41,9 +47,11 @@ jobs:
           path: ${{env.DOTNET_ROOT}}/sql/sql-script.sql
           
       - name: Publish API
+        if: ${{ 1 == 0 }}
         run: dotnet publish TenisApp.Api/TenisApp.Api.csproj -c Release -o '${{ env.AZURE_WEB_PACKAGE_PATH }}/myapp'
         
       - name: Azure WebApp deploy
+        if: ${{ 1 == 0 }}
         uses: Azure/webapps-deploy@v2.2.6
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
