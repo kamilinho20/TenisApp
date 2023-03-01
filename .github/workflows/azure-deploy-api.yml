@@ -1,5 +1,5 @@
 name: Build and deploy API to Azure Web Service
-on: push
+on: workflow_dispatch
 env:
   AZURE_WEB_PACKAGE_PATH: .
   AZURE_WEBAPP_NAME: tenisapp
@@ -8,22 +8,6 @@ jobs:
     name: Build and deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Azure login
-        uses: Azure/login@v1.4.6
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          
-      - name: Azure App Service Settings
-        uses: Azure/appservice-settings@v1 
-        with:
-          app-name: tenisapp
-          slot-name: 'development'
-          connection-strings-json: '{ "MainDatabase": "${{ secrets.AZURE_SQL_CONNECTIONSTRING }}" }'
-          
-      - name: fail step
-        run: |
-          return 1;
-          
       - uses: actions/checkout@v2
       
       - name: Setup .NET Core SDK
@@ -63,11 +47,9 @@ jobs:
           path: ${{env.DOTNET_ROOT}}/sql/sql-script.sql
           
       - name: Publish API
-        if: ${{ 1 == 0 }}
         run: dotnet publish TenisApp.Api/TenisApp.Api.csproj -c Release -o '${{ env.AZURE_WEB_PACKAGE_PATH }}/myapp'
         
       - name: Azure WebApp deploy
-        if: ${{ 1 == 0 }}
         uses: Azure/webapps-deploy@v2.2.6
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
