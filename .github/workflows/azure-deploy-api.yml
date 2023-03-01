@@ -18,7 +18,7 @@ jobs:
         with:
           app-name: tenisapp
           slot-name: 'development'
-          connection-string-json: '{ "MainDatabase": "${{ secrets.AZURE_SQL_CONNECTIONSTRING }}" }'
+          connection-strings-json: '{ "MainDatabase": "${{ secrets.AZURE_SQL_CONNECTIONSTRING }}" }'
           
       - name: fail step
         run: |
