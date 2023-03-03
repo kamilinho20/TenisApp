@@ -1,0 +1,27 @@
+name: Deploy app to Azure Container Registry
+on:
+  workflow_dispatch:
+
+env:
+  AZURE_LOGON: ${{ secrets.ACR_NAME }}.azurecr.io
+  IMG_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/tenisapp:${{ github.sha }}
+  WORK_DIR: ./deploy
+
+jobs:
+  ContainerDeployment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.AZURE_LOGON }}
+          username: ${{ secrets.SERVICE_PRINCIPAL_ID }}
+          password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
+       
+      - run: docker compose . -t ${{ env.IMG_NAME }}
+        working_directory: ${{ env.WORK_DIR }}
+      - run: docker push ${{ env.IMG_NAME }}
+      
+      
+      
