@@ -4,7 +4,7 @@ on:
 
 env:
   AZURE_LOGON: ${{ secrets.ACR_NAME }}.azurecr.io
-  IMG_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/tenisapp:${{ github.sha }}
+  IMG_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/tenisapp:v1
   WORK_DIR: ./deploy
 
 jobs:
