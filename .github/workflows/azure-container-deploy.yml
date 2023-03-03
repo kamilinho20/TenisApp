@@ -25,7 +25,7 @@ jobs:
   AKSDeployment:
     runs-on: ubuntu-latest
     needs: ContainerDeployment
-    if: github.ref == refs/heads/master
+    if: github.ref == 'refs/heads/master'
     #env:
       #NAMESPACE: tenis
 
