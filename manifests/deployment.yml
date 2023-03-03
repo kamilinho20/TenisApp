@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: webapp
-          image: acrnm02test.azurecr.io/webapp:v1
+          image: teniscontainer.azurecr.io/tenisapp:v1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
