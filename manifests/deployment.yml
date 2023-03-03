@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webapp
+  name: tenisapp
   labels:
     app: sample-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: webapp
+      service: tenisapp
   template:
     metadata:
       labels:
         app: sample-app
-        service: webapp
+        service: tenisapp
     spec:
       containers:
-        - name: webapp
+        - name: tenisapp
           image: teniscontainer.azurecr.io/tenisapp:v1
           imagePullPolicy: IfNotPresent
           ports:
@@ -26,4 +26,4 @@ spec:
             - name: ASPNETCORE_URLS
               value: http://+:80
             - name: WebApiBaseAddress
-              value: http://webapi
+              value: http://localhost/swagger
