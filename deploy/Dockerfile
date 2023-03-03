@@ -4,7 +4,7 @@
  FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
  WORKDIR /src
  COPY . .
- RUN ls
+ RUN dir -s
  RUN dotnet restore TenisApp.Api/TenisApp.Api.csproj
  RUN dotnet build TenisApp.Api/TenisApp.Api.csproj -c Release -o /app/build
  FROM build AS publish
