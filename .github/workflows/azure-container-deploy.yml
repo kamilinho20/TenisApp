@@ -20,7 +20,7 @@ jobs:
           password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
        
       - run: docker compose . -t ${{ env.IMG_NAME }}
-        working_directory: ${{ env.WORK_DIR }}
+        working-directory: ${{ env.WORK_DIR }}
       - run: docker push ${{ env.IMG_NAME }}
       
       
