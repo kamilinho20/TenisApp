@@ -19,7 +19,7 @@ jobs:
           username: ${{ secrets.SERVICE_PRINCIPAL_ID }}
           password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
        
-      - run: docker build ${{ env.WORK_DIR }}/Dockerfile -t ${{ env.IMG_NAME }}
+      - run: docker build . -f ${{ env.WORK_DIR }}/Dockerfile -t ${{ env.IMG_NAME }}
       - run: docker push ${{ env.IMG_NAME }}
       
       
