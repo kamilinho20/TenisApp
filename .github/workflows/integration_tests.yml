@@ -1,0 +1,27 @@
+name: Run Integration tests
+on: workflow_dispatch
+jobs:
+  RunIntegration:
+    runs-on: ubuntu-latest
+    env:
+      Database__Server: sqlserver
+      Database__User: sa
+      Database__Password: MendyPisowskie!@997
+      Database__DbName: _testDB
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:latest
+        env:
+          ACCEPT_EULA: Y
+          MSSQL_SA_PASSWORD: ${{ env.Database__Password }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: dotnet restore
+      - run: dotnet build --no-restore
+      - run: dotnet test --logger trx --results-directory TestResults --filter FullyQualifiedName\~IntegrationTest
+      - uses: actions/upload-artifact@v3.1.2
+        if: ${{ always() }}
+        with:
+          path: TestResults
+          name: test-results
