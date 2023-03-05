@@ -37,6 +37,7 @@ public class IntegrationTest : IDisposable
         connectionStringBuilder.DataSource = config["Database:Server"];
         connectionStringBuilder.InitialCatalog = config["Database:DbName"];
         var connectionString = connectionStringBuilder.ConnectionString;
+        Console.WriteLine($"Connection string: {connectionString}");
         builder.UseSqlServer(connectionString)
         .UseInternalServiceProvider(serviceProvider);
         _context = new AppDbContext(builder.Options);
