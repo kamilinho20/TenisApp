@@ -8,6 +8,8 @@ jobs:
       Database__User: sa
       Database__Password: MendyPisowskie!@997
       Database__DbName: _testDB
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:6.0
     services:
       sqlserver:
         image: mcr.microsoft.com/mssql/server:latest
