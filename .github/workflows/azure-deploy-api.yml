@@ -3,6 +3,9 @@ on: workflow_dispatch
 env:
   AZURE_WEB_PACKAGE_PATH: .
   AZURE_WEBAPP_NAME: tenisapp
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
 jobs:
   BuildAndDeploy:
     name: Build and deploy
@@ -35,10 +38,12 @@ jobs:
           name: SQL migration script
           path: ${{env.DOTNET_ROOT}}/sql/sql-script.sql
         
-      - name: Azure login
-        uses: Azure/login@v1.4.6
+      - name: 'Az CLI login'
+        uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: 06ca1202-3f12-44b8-8c87-1c81db664441
+          tenant-id: 877ae93a-2ac5-4250-a427-182a7ea10ff1
+          subscription-id: 5536e59e-b1f4-4d6c-8415-1de156f860ba
           
       - name: Azure SQL Deploy
         uses: Azure/sql-action@v2.1
