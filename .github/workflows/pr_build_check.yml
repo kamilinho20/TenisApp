@@ -21,5 +21,10 @@ jobs:
           dotnet-version: 7.x
       - run: ls ${{ github.workspace }}
       - run: dotnet restore
-      - run: dotnet build -c Release
-      - run: dotnet test
+      - run: dotnet build --no-restore
+      - run: dotnet test --logger trx --result-directory TestResults
+      - uses: actions/upload-artifact@v3.1.2
+        if: ${{ always() }}
+        with:
+          path: TestResults
+          name: test-results
